@@ -1,0 +1,87 @@
+<head>
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+
+ <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+<!--
+ <OLDscript type="application/javascript" src="https://raw.githubusercontent.com/kartena/Proj4Leaflet/master/lib/proj4-compressed.js"></script>
+ <OLDscript type-"application/javascript" src="https://raw.githubusercontent.com/kartena/Proj4Leaflet/master/src/proj4leaflet.js"></script>
+-->
+ <script type="application/javascript" src="proj4-compressed.js"></script>
+ <script type-"application/javascript" src="proj4leaflet.js"></script>
+
+</head>
+
+<body>
+
+<p>
+<style>
+#dom_id { height: 500px; }
+</style>
+
+<div id="dom_id"></div>
+</p>
+
+<script>
+// My API project   https://osdatahub.os.uk/projects/heatmap
+//https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=HiKqP4vPPc1kZEOfFrtoqPLaN4qo4S0B
+//https://api.os.uk/maps/raster/v1/zxy/Outdoor_3857/{z}/{x}/{y}.png?key=HiKqP4vPPc1kZEOfFrtoqPLaN4qo4S0B
+
+
+// need leaflet, proj4js, proj4leaflet libs
+// need lat, lon, zoom, os data hub api key
+let lat = 56.45;
+let lon = -2.97;
+let zoom = 8;
+let key = 'HiKqP4vPPc1kZEOfFrtoqPLaN4qo4S0B';
+let url_base = 'https://api.os.uk/maps/raster/v1/zxy';
+let strava_url = 'https://heatmap-external-a.strava.com/tiles-auth';
+let crs = new L.Proj.CRS( 
+  'EPSG:27700',
+  '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +datum=OSGB36 +units=m +no_defs',
+  { resolutions: [ 896.0, 448.0, 224.0, 112.0, 56.0, 28.0, 14.0, 7.0, 3.5, 1.75 ], origin: [ -238375.0, 1376256.0 ] }
+  );
+
+// tms[15]:https://heatmap-external-{switch:a,b,c}.strava.com/tiles-auth/all/hot/{zoom}/{x}/{y}.png?Key-Pair-Id=[CloudFront-Key-Pair-ID]&Policy=[CloudFront-Policy]&Signature=[CloudFront-Signature]
+// Valid values for type of data: all, ride, run, water, winter.
+// Valid values for heatmap color: hot, blue, purple, gray, bluered.
+
+// CloudFront-Key-Pair-Id:"APKAIDPUN4QMG7VUQPSA"
+// CloudFront-Policy:"eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vaGVhdG1hcC1leHRlcm5hbC0qLnN0cmF2YS5jb20vKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTYxMjk5NjMyMH0sIkRhdGVHcmVhdGVyVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjExNzcyMzIwfX19XX0_"
+// CloudFront-Signature:"nOs~Ej4o-OrARGb8EqmKAX5IsT1WeFWAxzdvlgwcAKETsONzJduiJ8Vuwb~bLbJbFpnUITXBCazpRW-XxEgDT42cbMR9df69iXHn7aycnPztw0yT6rkCW8e1J~VPK5THiBhtaqe4I-Kre3FCFNuFTAVGpKbmTqc~pXcpkgdyKhMQ~vWc3WAX36PBpCy6ORiyNIQigx-d50kEuraYPL0wQjScRE8dmxxtyqosQUBQ~AwnQN98pNk6eGySmiRmgPSNs5sdawdYtZ~ffkAkGi1dtvpMoPgVCAz~6yrE09Y~F4lWsc9e8p3WO3otvJ3KawXfH6ByBnb~4~Du0RyqQvOSvg__"
+
+let param = "Key-Pair-Id:=APKAIDPUN4QMG7VUQPSA&Policy=eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vaGVhdG1hcC1leHRlcm5hbC0qLnN0cmF2YS5jb20vKiIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTYxMjk5NjMyMH0sIkRhdGVHcmVhdGVyVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjExNzcyMzIwfX19XX0_&Signature=nOs~Ej4o-OrARGb8EqmKAX5IsT1WeFWAxzdvlgwcAKETsONzJduiJ8Vuwb~bLbJbFpnUITXBCazpRW-XxEgDT42cbMR9df69iXHn7aycnPztw0yT6rkCW8e1J~VPK5THiBhtaqe4I-Kre3FCFNuFTAVGpKbmTqc~pXcpkgdyKhMQ~vWc3WAX36PBpCy6ORiyNIQigx-d50kEuraYPL0wQjScRE8dmxxtyqosQUBQ~AwnQN98pNk6eGySmiRmgPSNs5sdawdYtZ~ffkAkGi1dtvpMoPgVCAz~6yrE09Y~F4lWsc9e8p3WO3otvJ3KawXfH6ByBnb~4~Du0RyqQvOSvg__"
+
+// Leaflet / OpenLayers  example code
+// https://labs.os.uk/public/os-data-hub-examples/os-maps-api/zxy-3857-basic-map
+
+// List of layers, see https://osdatahub.os.uk/docs/wmts/technicalSpecification
+// Leisure_27700 - show Landranger but incompatible projection
+// Outdoor_3857  - works ok but only at high zoom and not Landranger
+let os_gb_tile_layer = L.tileLayer( `${ url_base }/Outdoor_3857/{z}/{x}/{y}.png?key=${ key }`,
+ { "zoomOffset": 0 });
+let heatmap_layer = L.tileLayer( `${ strava_url }/running/bluered/{z}/{x}/{y}.png?${ param }`,
+ { "zoomOffset": 0, "maxNativeZoom":14 } );
+let map = new L.Map(  "dom_id", { 
+  center: [lat, lon], 
+  //crs: crs,
+  zoom: 12,
+ minZoom: 0, maxZoom: 17,
+ zoom: zoom - 7, // correction from os gb layer no. to web mercator layer no, floor=0, ceiling=9
+ 'layers'	: [ os_gb_tile_layer, heatmap_layer ],
+  } );
+
+</script>
+
+<!--
+ heatmap was       https://globalheat.strava.com/tiles/running/color4/{zoom}/{x}/{y}.png
+ running cycling or both
+ then              https://heatmap-external-a.strava.com/tiles/all/bluered/{zoom}/{x}/{y}.png?px=256
+ heatmap tiles now https://heatmap-external-b.strava.com/tiles-auth/all/hot/
+-->
+
+</body>
