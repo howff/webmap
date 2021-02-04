@@ -1,9 +1,10 @@
+<!--
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>Bing Maps</title>
-    <!-- Pointer events polyfill for old browsers, see https://caniuse.com/#feat=pointer -->
+    < !-- Pointer events polyfill for old browsers, see https://caniuse.com/#feat=pointer -- >
     <script src="https://unpkg.com/elm-pep"></script>
     <style>
       .map {
@@ -24,6 +25,7 @@
     <script src="main.js"></script>
   </body>
 </html>
+-->
 
 <!-- -------------------------------- -->
 
@@ -33,7 +35,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
     <style>
       .map {
-        height: 400px;
+        height: 800px;
         width: 100%;
       }
     </style>
@@ -41,19 +43,53 @@
     <title>OpenLayers example</title>
   </head>
   <body>
-    <h2>My Map</h2>
+    <h2>Andrew's run planner</h2>
+    <p>Zoom in to see the maps...
+       <select id="layer-select">
+        <option value="Aerial">Aerial</option>
+        <option value="AerialWithLabelsOnDemand">Aerial with labels</option>
+        <option value="RoadOnDemand">Road</option>
+        <option value="CanvasDark">Road dark</option>
+        <option value="OrdnanceSurvey" selected>Ordnance Survey</option>
+        <option value="OSM">OpenStreetMap</option>
+       </select>
+     </p>
+
     <div id="map" class="map"></div>
     <script type="text/javascript">
       var map = new ol.Map({
         target: 'map',
         layers: [
           new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
+            source: new ol.source.OSM(),
+                  visible: false,
+      preload: Infinity,
+
+          }),
+          new ol.layer.Tile({
+                  source: new ol.source.BingMaps({
+        key: 'Av-OwYFX-GanKfSgaX3GR2NhQnfZex2EKDuxEuW1C8Q3PJDL_ff5OlPdP1IFcLFR',
+        imagerySet: 'OrdnanceSurvey'
+        // use maxZoom 19 to see stretched tiles instead of the BingMaps
+        // "no photos at this zoom level" tiles
+        // maxZoom: 19
+      })
+
+            }),
+          new ol.layer.Tile({
+      source: new ol.source.XYZ({
+        url: // http://www.thunderforest.com/docs/apikeys/
+        // Valid values for type of data: all, ride, run, water, winter.
+        // Valid values for heatmap color: hot, blue, purple, gray, bluered.
+          'https://heatmap-external-a.strava.com/tiles/running/hot/{z}/{x}/{y}.png' +
+          '?',
+          maxZoom:13,
+      }),
+    })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([37.41, 8.82]),
-          zoom: 4
+          center: ol.proj.fromLonLat([-2.97, 56.45]),
+          zoom: 11
         })
       });
     </script>
