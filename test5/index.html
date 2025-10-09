@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OpenLayers GeoTIFF with Color Ramp Selector</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/ol.css">
+  <style>
+    html, body, #map { margin:0; height:100%; width:100%; font-family:sans-serif; }
+    #progress-container {
+      position:absolute; top:10px; left:50%; transform:translateX(-50%);
+      width:320px; background:#ddd; border-radius:4px; overflow:hidden;
+      box-shadow:0 1px 4px rgba(0,0,0,0.3);
+    }
+    #progress { background:#4CAF50; height:8px; width:0%; transition:width .3s; }
+    #progress-text { text-align:center; font-size:13px; padding:4px 0; color:#333; }
+    #legend {
+      position:absolute; bottom:15px; right:15px;
+      background:rgba(255,255,255,0.9); border-radius:4px;
+      box-shadow:0 1px 4px rgba(0,0,0,0.2); padding:8px 12px;
+      font-size:13px; line-height:1.4; width:180px; text-align:center;
+    }
+    #legend-canvas {
+      width:140px; height:16px; display:block; margin:5px auto;
+      border:1px solid #aaa;
+    }
+    #colorRampSelect {
+      margin-top:6px;
+      padding:3px;
+      border-radius:3px;
+      border:1px solid #aaa;
+      width:100%;
+      background:white;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <div id="progress-container">
+    <div id="progress"></div>
+    <div id="progress-text">Loading GeoTIFF...</div>
+  </div>
+
+  <div id="legend">
+    <div><b>Raster Value</b></div>
+    <canvas id="legend-canvas" width="140" height="16"></canvas>
+    <div><span id="legend-min">0</span> → <span id="legend-max">255</span></div>
+    <select id="colorRampSelect">
+      <option>Viridis</option>
+      <option>Magma</option>
+      <option>Coolwarm</option>
+      <option>Terrain</option>
+    </select>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

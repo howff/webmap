@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GeoTIFF Viewer — Color Ramp + Stretch</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/ol.css">
+  <style>
+    html, body, #map { margin:0; height:100%; width:100%; font-family:sans-serif; }
+    #progress-container {
+      position:absolute; top:10px; left:50%; transform:translateX(-50%);
+      width:320px; background:#ddd; border-radius:4px; overflow:hidden;
+      box-shadow:0 1px 4px rgba(0,0,0,0.3);
+    }
+    #progress { background:#4CAF50; height:8px; width:0%; transition:width .3s; }
+    #progress-text { text-align:center; font-size:13px; padding:4px 0; color:#333; }
+    #legend {
+      position:absolute; bottom:15px; right:15px;
+      background:rgba(255,255,255,0.95); border-radius:6px;
+      box-shadow:0 1px 4px rgba(0,0,0,0.25); padding:10px 14px;
+      font-size:13px; line-height:1.4; width:190px; text-align:center;
+    }
+    #legend-canvas {
+      width:140px; height:16px; display:block; margin:5px auto;
+      border:1px solid #aaa;
+    }
+    #colorRampSelect, input[type=range] {
+      width:100%; margin-top:6px;
+    }
+    label {
+      display:block;
+      margin-top:4px;
+      font-size:12px;
+      color:#333;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <div id="progress-container">
+    <div id="progress"></div>
+    <div id="progress-text">Loading GeoTIFF...</div>
+  </div>
+
+  <div id="legend">
+    <div><b>Raster Value</b></div>
+    <canvas id="legend-canvas" width="140" height="16"></canvas>
+    <div><span id="legend-min">0</span> → <span id="legend-max">255</span></div>
+    <label for="colorRampSelect">Color Ramp:</label>
+    <select id="colorRampSelect">
+      <option>Viridis</option>
+      <option>Magma</option>
+      <option>Coolwarm</option>
+      <option>Terrain</option>
+    </select>
+    <label for="minRange">Min Stretch</label>
+    <input id="minRange" type="range" step="1">
+    <label for="maxRange">Max Stretch</label>
+    <input id="maxRange" type="range" step="1">
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Legend + Progress Bar (OpenLayers GeoTIFF)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol/ol.css">
+  <style>
+    html, body, #map {
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      font-family: sans-serif;
+    }
+    #progress-container {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
+      background: #ddd;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+    #progress {
+      background: #4CAF50;
+      height: 8px;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    #progress-text {
+      text-align: center;
+      font-size: 13px;
+      padding: 4px 0;
+      color: #333;
+    }
+    #legend {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 4px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      padding: 8px 12px;
+      font-size: 13px;
+      line-height: 1.4;
+      width: 150px;
+      text-align: center;
+    }
+    #legend-canvas {
+      width: 120px;
+      height: 14px;
+      display: block;
+      margin: 5px auto;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- Progress Indicator -->
+  <div id="progress-container">
+    <div id="progress"></div>
+    <div id="progress-text">Loading GeoTIFF...</div>
+  </div>
+
+  <!-- Dynamic Legend -->
+  <div id="legend">
+    <div><b>Raster Value</b></div>
+    <canvas id="legend-canvas" width="120" height="14"></canvas>
+    <div><span id="legend-min">0</span> → <span id="legend-max">255</span></div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
