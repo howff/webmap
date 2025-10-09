@@ -68,15 +68,17 @@ const osmLayer = new TileLayer({
 });
 
 // ======== 5. Create the OpenLayers map ========
+console.log(geoTiffSource.getView())
 const map = new Map({
   target: 'map',
   //layers: [osmLayer, geoTiffLayer],
   layers: [geoTiffLayer],
-  view: new View({
-    projection: 'EPSG:3857',
-    center: [0, 0],
-    zoom: 2,
-  }),
+	view: geoTiffSource.getView()
+//  view: new View({
+//    projection: 'EPSG:3857',
+//    center: [0, 0],
+//    zoom: 2,
+//  }),
 });
 
 // ======== 6. Progress indicator ========
