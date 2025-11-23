@@ -1,0 +1,38 @@
+[
+  {
+    "name": "_strava4_session",
+    "value": "hfs8m4e4so4r7ip6ck7np5vqj0sll728"
+  },
+  {
+    "name": "_cfuvid",
+    "value": "plEgZ8HU1jXZs6rXLwtvvRYccvq5jOVHGW4EU16zTwM-1762025840203-0.0.1.1-604800000"
+  },
+  {
+    "name": "_help_center_session",
+    "value": "MTVtMDMwZ3VtMDR2VW5hRG90bEI1U1NsQjFDZnBTTkF0SFVZKy9pbGFaRXVvcjVOQXJoTWJSUHJYSWlVa2w4UGlJUks2cXl1V3dPWDEyckNkbkpGWlE9PS0tb0ZYZ1ZoOUl2TkcxaEU2OTA4OW5pQT09--4fa7ff3c3b9d57ba23437daae04a2a9c5747664a"
+  },
+  {
+    "name": "CloudFront-Key-Pair-Id",
+    "value": "K3VK9UFQYD04PI"
+  },
+  {
+    "name": "CloudFront-Policy",
+    "value": "eyJTdGF0ZW1lbnQiOiBbeyJSZXNvdXJjZSI6Imh0dHBzOi8vKmNvbnRlbnQtKi5zdHJhdmEuY29tLyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3NjM4NDY0NzV9fX1dfQ__"
+  },
+  {
+    "name": "CloudFront-Signature",
+    "value": "YQejqoi~L-4uJ9jmuMy3oSaNHPp9KiNrf92iFwT9RWDICBw8UNExmtp7ZZHZq~~-BrngoZSpeT5uOh8f-1dAqXToqFCSG-kqJbR6gi0yRvk~ZuUQaM6CukJaJChqNH-~x7KGvNLCmb7lHSk9~Lx6~TBkJJfm3Lc89fWyFxX0rP~OkQDcRgkyJcAkaNsuwsTFWFMh-esBDJmqoNUZ1gwUKwCBuamlOMCz4g9vF31fEnk6G9w5OiNtkYgdMqb~~8GLH7klCPw~9AdREoZ-V~hJWKhPglSaudBtU8ebGX6a9v33cRcYH8mNWPXIXXNJgcjfuGctckc22kXWDK-LnTDXEg__"
+  },
+  {
+    "name": "_strava_idcf",
+    "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NjM4NDY0NzUsImlhdCI6MTc2Mzc2MDA3NSwiYXRobGV0ZUlkIjo5NDYzMTIxLCJ0aW1lc3RhbXAiOjE3NjM3NjAwNzV9.q0wx7CfwiwM7slthN8SPxg5Ht5eFDa7ea_zF73jWi7I"
+  },
+  {
+    "name": "_strava_CloudFront-Expires",
+    "value": "1763846475000"
+  },
+  {
+    "name": "CookieConsent",
+    "value": "{stamp:%27NE00id48xWAW6XE8E2rlwwL8Y6EC8HXHRGuVQ5kThYo4kNO63p3n1w==%27%2Cnecessary:true%2Cpreferences:false%2Cstatistics:false%2Cmarketing:false%2Cmethod:%27explicit%27%2Cver:2%2Cutc:1763760082254%2Cregion:%27gb%27}"
+  }
+]
