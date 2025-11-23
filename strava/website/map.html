@@ -21,6 +21,10 @@
   <strong>Layers</strong><br>
   <label><input type="checkbox" id="osToggle" checked> Ordnance Survey</label><br>
   <label><input type="checkbox" id="heatmapToggle" checked> Strava Heatmap</label>
+  <label><input type="radio" name="activity" value="run"> On foot</label>
+  <label><input type="radio" name="activity" value="ride"> Cycling</label>
+  <!-- <label><input type="radio" name="activity" value="winter"> Winter</label> not working -->
+  <!-- <label><input type="radio" name="activity" value="water"> Water</label>   not working -->
 </div>
 
 
@@ -36,6 +40,7 @@
       padding: 10px;
       border-radius: 4px;
       font-family: Arial, sans-serif;
+      font-size: smaller;
     }
 </style>
 
@@ -46,6 +51,7 @@
 <script>
 
     const apiKey = 'HiKqP4vPPc1kZEOfFrtoqPLaN4qo4S0B';
+    const heatmap_url_template = 'http://192.168.1.30:4331/identified/globalheat/{activity}/bluered/{z}/{x}/{y}.png?v=19';
 
     // Setup the EPSG:27700 (British National Grid) projection.
     proj4.defs("EPSG:27700", "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs");
@@ -60,29 +66,31 @@
     // The 'minResolution' and 'maxResolution' options are used to define the resolutions
     // at which the layers will be visible.
     os_leisure_layer = new ol.layer.Tile({
-                maxZoom: 9,
-                source: new ol.source.XYZ({
-                    url: 'https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + apiKey,
-                    projection: 'EPSG:27700',
-                    tileGrid: tilegrid
-                }),
-                className: 'my_css_class'
-            });
+        maxZoom: 9,
+        source: new ol.source.XYZ({
+            url: 'https://api.os.uk/maps/raster/v1/zxy/Leisure_27700/{z}/{x}/{y}.png?key=' + apiKey,
+            projection: 'EPSG:27700',
+            tileGrid: tilegrid
+        }),
+        className: 'my_css_class'
+    });
     os_road_layer = new ol.layer.Tile({
-                minZoom: 9,
-                source: new ol.source.XYZ({
-                    url: 'https://api.os.uk/maps/raster/v1/zxy/Road_27700/{z}/{x}/{y}.png?key=' + apiKey,
-                    projection: 'EPSG:27700',
-                    tileGrid: tilegrid
-                })
-            });
+        minZoom: 9,
+        source: new ol.source.XYZ({
+            url: 'https://api.os.uk/maps/raster/v1/zxy/Road_27700/{z}/{x}/{y}.png?key=' + apiKey,
+            projection: 'EPSG:27700',
+            tileGrid: tilegrid
+        })
+    });
+    heatmap_source = new ol.source.XYZ({
+        url: heatmap_url_template.replace('{activity}', 'all'),
+        projection: 'EPSG:3857'
+    });
     heatmap_layer = new ol.layer.Tile({
-                    minZoom:1, maxZoom:20,
-                    source: new ol.source.XYZ({
-                            url: 'http://192.168.1.30:4331/identified/globalheat/all/bluered/{z}/{x}/{y}.png?v=19',
-                            projection: 'EPSG:3857'
-                    })
-            });
+        minZoom:1,
+	maxZoom:20,
+        source: heatmap_source
+    });
 
     // --- Decode URL ---
     const params = new URLSearchParams(window.location.search);
@@ -139,6 +147,16 @@
             window.history.replaceState({}, "", newUrl);
         }, 200);
     }
+
+    // --- Update stravaa URL when activity is chosen
+    const radios = document.querySelectorAll('input[name="activity"]');
+    radios.forEach(r => r.addEventListener('change', e => {
+        const activity = e.target.value;
+        // Update the source URL by replacing the placeholder and ask OL to refresh tiles.
+        const newUrl = heatmap_url_template.replace('{activity}', activity);
+        heatmap_source.setUrl(newUrl);
+        heatmap_source.refresh();
+    }));
 
 
 </script>
